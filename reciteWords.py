@@ -4,8 +4,10 @@ import random
 
 def pprint(list):
     for i in list:
-        print(i,end='	')
+        print(i, end='	')
     print()
+
+
 def read_words(url):
     word_list = []
     with open(url, encoding='utf-8') as txt:

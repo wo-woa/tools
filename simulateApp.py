@@ -9,6 +9,7 @@ headers = {
     'Content-Type': 'application/x-www-form-urlencoded'
 }
 
+
 def get_password(str):
     js = json.loads(str)
     content = js['topic']['content']
@@ -17,6 +18,7 @@ def get_password(str):
         if each['infor'].find('才能浏览') > 0:
             return '需要付费'
         if each['infor'].find('查看提取码请回复') > 0:
+            print(content)
             return '查看提取码请回复'
         if link:
             print(link.group())
@@ -24,7 +26,7 @@ def get_password(str):
         if result:
             return result.group()
     # 美化输出json中带有中文的
-    return json.dumps(content, sort_keys=True, indent=4,separators=(',', ':'),ensure_ascii=False)
+    return json.dumps(content, sort_keys=True, indent=4, separators=(',', ':'), ensure_ascii=False)
 
 
 # url='www.fumankong.com'
