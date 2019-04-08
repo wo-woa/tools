@@ -1,6 +1,24 @@
 # -*- coding: utf-8 -*-
 import random
+import xlrd
 
+class word():
+    def __init__(self,japanese,pronounce,type,meaning,sentence):
+        self.japanese=japanese
+        self.pronounce = pronounce
+        self.type = type
+        self.meaning = meaning
+        self.sentence = sentence
+
+def get_xls_words(name,start,end):
+    workbook=xlrd.open_workbook(r'f:\nihong.xls')
+    word_list=[]
+    sheet = workbook.sheet_by_index(start+1)
+    for i in range(sheet.nrows):
+        row=sheet.row_values(i)
+        w=word(row[1],row[2],row[3],row[4],row[5])
+        word_list.append(w)
+    return word_list
 
 def pprint(list):
     for i in list:
