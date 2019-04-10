@@ -2,7 +2,7 @@
 import json
 import re
 import requests
-
+import traceback
 headers = {
     'Host': 'www.fumankong.com',
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.72 Safari/537.36',
@@ -11,22 +11,26 @@ headers = {
 
 
 def get_password(str):
-    js = json.loads(str)
-    content = js['topic']['content']
-    for each in content:
-        link = re.search('https://[\w./-]+', each['infor'])
-        if each['infor'].find('才能浏览') > 0:
-            return '需要付费'
-        if each['infor'].find('查看提取码请回复') > 0:
-            print(content)
-            return '查看提取码请回复'
-        if link:
-            print(link.group())
-        result = re.search('验证码：\w+|提取码.\w+|密码[:：]\w+|\[sell=\d+?,\d+?\][A-Za-z0-9_]+', each['infor'])
-        if result:
-            return result.group()
-    # 美化输出json中带有中文的
-    return json.dumps(content, sort_keys=True, indent=4, separators=(',', ':'), ensure_ascii=False)
+    try:
+        js = json.loads(str)
+        content = js['topic']['content']
+        for each in content:
+            link = re.search('https://[\w./-]+', each['infor'])
+            if each['infor'].find('才能浏览') > 0:
+                return '需要付费'
+            if each['infor'].find('查看提取码请回复') > 0:
+                print(content)
+                return '查看提取码请回复'
+            if link:
+                print(link.group())
+            result = re.search('验证码：\w+|提取码.\w+|密码[:：]\w+|\[sell=\d+?,\d+?\][A-Za-z0-9_]+', each['infor'])
+            if result:
+                return result.group()
+        # 美化输出json中带有中文的
+        return json.dumps(content, sort_keys=True, indent=4, separators=(',', ':'), ensure_ascii=False)
+    except Exception as e:
+        print(traceback.format_exc())
+        print(str)
 
 
 # url='www.fumankong.com'
