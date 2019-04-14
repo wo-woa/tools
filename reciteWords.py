@@ -41,6 +41,7 @@ def get_xls_day_words(name, sheet_num, start):
                     num += 1
     except Exception as e:
         print(traceback.format_exc())
+    random.shuffle(word_list)
     return word_list
 
 
@@ -51,7 +52,7 @@ def get_xls_week_words(name, sheet_num):
     try:
         for i in range(sheet.nrows):
             row = sheet.row_values(i)
-            if str(row[1]) != '' :
+            if str(row[1]) != '':
                 w = word(row[1], row[2], row[3], row[4], row[5])
                 word_list.append(w)
     except Exception as e:
@@ -77,12 +78,12 @@ def read_words(url):
     return word_list
 
 
-def recite(words,num):
+def recite(words, num=20):
     wrong = 0
     wrong_words = []
     print('total is ' + str(len(words)))
     for each in words:
-        if wrong<num:
+        if wrong < num:
             print(each[0], end='')
             input()
             pprint(each[1:])
@@ -97,12 +98,12 @@ def recite(words,num):
         pprint(i)
 
 
-def recite_words(words,num=20):
+def recite_words(words, num=20):
     wrong = 0
     wrong_words = []
     print('total is ' + str(len(words)))
     for each in words:
-        if wrong<=num:
+        if wrong <= num:
             print(each.japanese, end='')
             input()
             print(each.answer())
@@ -115,8 +116,42 @@ def recite_words(words,num=20):
         print(i.total())
 
 
-# a = read_words('word')
-# recite(a)
-words = get_xls_day_words(r'f:\nihong.xls', 2,5)
-# words = get_xls_week_words(r'f:\nihong.xls', 2)
-recite_words(words,30)
+def review_day():
+    week = input('请输入第几周  ')
+    day = input('请输入第几天  ')
+    week = 4 if week == '' else week
+    day = 5 if day == '' else day
+    words = get_xls_day_words(r'f:\nihong.xls', int(week), int(day))
+    return words
+
+
+def review_week():
+    week = input('请输入第几周  ')
+    week = 4 if week == '' else week
+    words = get_xls_week_words(r'f:\nihong.xls', int(week))
+    return words
+
+
+def review_typical():
+    a = read_words('word')
+    return a
+
+
+def get_type(num):
+    return {
+        "1": review_day,
+        "2": review_week,
+        "3": review_typical
+    }.get(num, None)
+
+
+while True:
+    type = input('请输入复习类型：1(默认)：按天；2：按周；3：特定')
+    type = '1' if type == '' else type
+    words = get_type(type)()
+    if type != '3':
+        recite_words(words, 30)
+    else:
+        recite(words)
+    if input('空格键继续，其他键退出') != ' ':
+        break
