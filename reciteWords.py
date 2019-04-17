@@ -2,6 +2,7 @@
 import random
 import xlrd
 import traceback
+import pyperclip
 
 
 class word():
@@ -62,7 +63,7 @@ def get_xls_week_words(name, sheet_num):
 
 def pprint(list):
     for i in list:
-        print(i, end='	')
+        print(i, end='\t')
     print()
 
 
@@ -72,7 +73,7 @@ def read_words(url):
         data = txt.readlines()
     for each in data:
         if each != '\n':
-            line = each[:-1].split('	')
+            line = each[:-1].split('\t')
             word_list.append(line)
     random.shuffle(word_list)
     return word_list
@@ -112,8 +113,10 @@ def recite_words(words, num=20):
                 wrong += 1
                 wrong_words.append(each)
     print('answer wrong ' + str(len(wrong_words)))
-    for i in wrong_words:
-        print(i.total())
+
+    with open('word','w+',encoding='utf-8') as file:
+        for i in wrong_words:
+            file.write(i.total()+'\n')
 
 
 def review_day():
