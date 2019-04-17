@@ -26,9 +26,13 @@ def get_book_list(name):
     js = json.loads(data.text)
     data_list = []
     buffer = []
-    for each in append:
-        buffer.append(js['aladdin'][each])
-    data_list.append(buffer)
+    try:
+        for each in append:
+            # aladdin 是完全匹配的会额外显示，但是也可能不存在
+            buffer.append(js['aladdin'][each])
+        data_list.append(buffer)
+    except KeyError :
+        print('没有完全匹配的')
     for each in js['data']:
         buffer = []
         for i in append:
@@ -109,14 +113,14 @@ def decrypt(txt):
 
 append = ['title', 'author', 'category', 'tags', 'hh_hot', 'words', 'bid']
 append_name = ['名字', '作者', '分类', '标签', '热度', '字数', 'id']
-name = '最强总裁'
+name = '暴虎'
 
 
 
 data = get_book_list(name)
 pretty_table(data)
 num=input('请选择下载的书籍')
-id=data[int(num)-1][6]
+id=str(data[int(num)-1][6])
 print(id)
 download_text(id)
 
