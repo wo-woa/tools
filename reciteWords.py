@@ -113,10 +113,11 @@ def recite_words(words, num=20):
                 wrong += 1
                 wrong_words.append(each)
     print('answer wrong ' + str(len(wrong_words)))
-
-    with open('word','w+',encoding='utf-8') as file:
-        for i in wrong_words:
-            file.write(i.total()+'\n')
+    save = input('是否要保存到错题中(非空即保存)')
+    if save != '':
+        with open('word', 'w+', encoding='utf-8') as file:
+            for i in wrong_words:
+                file.write(i.total() + '\n')
 
 
 def review_day():
