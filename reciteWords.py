@@ -3,7 +3,7 @@ import random
 import xlrd
 import traceback
 import pyperclip
-
+import os
 
 class word():
     def __init__(self, japanese, pronounce, type, meaning, sentence):
@@ -125,14 +125,14 @@ def review_day():
     day = input('请输入第几天  ')
     week = 4 if week == '' else week
     day = 5 if day == '' else day
-    words = get_xls_day_words(r'f:\nihong.xls', int(week), int(day))
+    words = get_xls_day_words(file_path, int(week), int(day))
     return words
 
 
 def review_week():
     week = input('请输入第几周  ')
     week = 4 if week == '' else week
-    words = get_xls_week_words(r'f:\nihong.xls', int(week))
+    words = get_xls_week_words(file_path, int(week))
     return words
 
 
@@ -148,6 +148,8 @@ def get_type(num):
         "3": review_typical
     }.get(num, None)
 
+
+file_path = r'f:\nihong.xls' if os.path.exists(r'f:\nihong.xls') else 'nihong.xls'
 
 while True:
     type = input('请输入复习类型：1(默认)：按天；2：按周；3：特定')
