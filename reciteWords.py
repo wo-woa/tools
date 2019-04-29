@@ -2,8 +2,8 @@
 import random
 import xlrd
 import traceback
-import pyperclip
 import os
+
 
 class word():
     def __init__(self, japanese, pronounce, type, meaning, sentence):
@@ -21,6 +21,12 @@ class word():
 
 
 def get_xls_day_words(name, sheet_num, start):
+    '''
+    :param name: 文件名
+    :param sheet_num: 第几周
+    :param start:第几天
+    :return:单词类的列表
+    '''
     workbook = xlrd.open_workbook(name)
     word_list = []
     sheet = workbook.sheet_by_index(sheet_num + 1)
@@ -28,11 +34,12 @@ def get_xls_day_words(name, sheet_num, start):
     try:
         for i in range(sheet.nrows):
             row = sheet.row_values(i)
+            # 如果第一个不为空，第二个为空，即是一天
             if str(row[1]) == '' and str(row[0]) != '':
                 if num == start:
                     i += 1
                     row = sheet.row_values(i)
-                    while (row[1] != ''):
+                    while row[1] != '':
                         w = word(row[1], row[2], row[3], row[4], row[5])
                         word_list.append(w)
                         i += 1
@@ -40,13 +47,18 @@ def get_xls_day_words(name, sheet_num, start):
                     break
                 else:
                     num += 1
-    except Exception as e:
+    except Exception :
         print(traceback.format_exc())
     random.shuffle(word_list)
     return word_list
 
 
 def get_xls_week_words(name, sheet_num):
+    '''
+    :param name: 文件名
+    :param sheet_num: 第几周
+    :return:单词类的列表
+    '''
     workbook = xlrd.open_workbook(name)
     word_list = []
     sheet = workbook.sheet_by_index(sheet_num + 1)
@@ -58,6 +70,7 @@ def get_xls_week_words(name, sheet_num):
                 word_list.append(w)
     except Exception as e:
         print(traceback.format_exc())
+    random.shuffle(word_list)
     return word_list
 
 
@@ -67,9 +80,13 @@ def pprint(list):
     print()
 
 
-def read_words(url):
+def read_words(name):
+    '''
+    :param name: 文件名
+    :return: 单词列表
+    '''
     word_list = []
-    with open(url, encoding='utf-8') as txt:
+    with open(name, encoding='utf-8') as txt:
         data = txt.readlines()
     for each in data:
         if each != '\n':
@@ -80,6 +97,11 @@ def read_words(url):
 
 
 def recite(words, num=20):
+    '''
+    :param words: 单词列表
+    :param num: 最多错误个数
+    :return: 输出错误单词
+    '''
     wrong = 0
     wrong_words = []
     print('total is ' + str(len(words)))
@@ -100,6 +122,11 @@ def recite(words, num=20):
 
 
 def recite_words(words, num=20):
+    '''
+    :param words: 单词类列表
+    :param num: 最多错误个数
+    :return: 输出错误单词
+    '''
     wrong = 0
     wrong_words = []
     print('total is ' + str(len(words)))
