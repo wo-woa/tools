@@ -47,7 +47,7 @@ def get_xls_day_words(name, sheet_num, start):
                     break
                 else:
                     num += 1
-    except Exception :
+    except Exception:
         print(traceback.format_exc())
     random.shuffle(word_list)
     return word_list
@@ -176,8 +176,8 @@ def get_type(num):
     }.get(num, None)
 
 
-file_path = r'f:\nihong.xls' if os.path.exists(r'f:\nihong.xls') else 'nihong.xls'
-
+file_path = input('请输入单词xls文件路径(默认nihong.xls)')
+file_path = 'nihong.xls' if file_path == '' else file_path
 while True:
     type = input('请输入复习类型：1(默认)：按天；2：按周；3：特定')
     type = '1' if type == '' else type
