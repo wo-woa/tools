@@ -2,7 +2,6 @@
 import random
 import xlrd
 import traceback
-import os
 
 
 class word():
@@ -40,7 +39,7 @@ def get_xls_day_words(name, sheet_num, start):
                     i += 1
                     row = sheet.row_values(i)
                     while row[1] != '':
-                        w = word(row[1], row[2], row[3], row[4], row[5])
+                        w = word(row[0],row[1], row[2], row[3], row[4])
                         word_list.append(w)
                         i += 1
                         row = sheet.row_values(i) if i < sheet.nrows else ['', '']
@@ -66,7 +65,7 @@ def get_xls_week_words(name, sheet_num):
         for i in range(sheet.nrows):
             row = sheet.row_values(i)
             if str(row[1]) != '':
-                w = word(row[1], row[2], row[3], row[4], row[5])
+                w = word(row[0],row[1], row[2], row[3], row[4])
                 word_list.append(w)
     except Exception as e:
         print(traceback.format_exc())
