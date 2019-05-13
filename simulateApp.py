@@ -3,6 +3,7 @@ import json
 import re
 import requests
 import traceback
+
 headers = {
     'Host': 'www.fumankong.com',
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.72 Safari/537.36',
@@ -23,7 +24,7 @@ def get_password(str):
                 return '查看提取码请回复'
             if link:
                 print(link.group())
-            result = re.search('验证码：\w+|提取码.\w+|密码[:：]\w+|\[sell=\d+?,\d+?\][A-Za-z0-9_]+', each['infor'])
+            result = re.search(r'验证码.+?\w+|提取码.+?\w+|密码.+?\w+|\[sell=\d+?,\d+?\][A-Za-z0-9_]+', each['infor'])
             if result:
                 return result.group()
         # 美化输出json中带有中文的
@@ -35,7 +36,10 @@ def get_password(str):
 
 # url='www.fumankong.com'
 url = 'https://www.fumankong.com//mobcent/app/web/index.php?r=forum/postlist'
-date = 'packageName=com.appbyme.app301097&forumType=7&pageSize=10&accessToken=e8576268548d8c3ed48ea959225d5&appName=%E8%85%90%E6%BC%AB%E6%8E%A7&topicId={id}&authorId=0&egnVersion=v2103.5&accessSecret=29d3743008928d453836f122b008a&sdkVersion=2.5.0.0&imei=99001064700010&apphash=ddf6b0a4&boardId=88&forumKey=q0PvFAdGj0lwMvKxw6&page=1&platType=1&imsi=460110210578654&sdkType='
+date = 'packageName=com.appbyme.app301097&forumType=7&pageSize=10&accessToken=9d22238f6cd72830787d5eb4ef15b&appName=%E8%85%90%E6%BC%AB%E6%8E%A7&topicId={id}&authorId=0&egnVersion=v2103.5&accessSecret=e529b666669a538789cdbb5176ca5&sdkVersion=2.5.0.0&imei=99001064700010&apphash=4b2edd7b&boardId=88&forumKey=q0PvFAdGj0lwMvKxw6&page=1&platType=1&imsi=460110394206015&sdkType='
+# date = 'packageName=com.appbyme.app301097&forumType=7&pageSize=10&accessToken=e8576268548d8c3ed48ea959225d5&appName=%E8%85%90%E6%BC%AB%E6%8E%A7&topicId={id}&authorId=0&egnVersion=v2103.5&accessSecret=29d3743008928d453836f122b008a&sdkVersion=2.5.0.0&imei=99001064700010&apphash=ddf6b0a4&boardId=88&forumKey=q0PvFAdGj0lwMvKxw6&page=1&platType=1&imsi=460110210578654&sdkType='
+
+
 while True:
     # id=155176
     print('请输入id')
@@ -47,3 +51,7 @@ while True:
     print(get_password(json_text))
     if input('空格键继续，其他键退出') != ' ':
         break
+
+
+# 'https://www.fumankong.com//mobcent/app/web/index.php?r=forum/topiclistex'
+# 'filterType=&packageName=com.appbyme.app301097&sorts=&sortby=all&isImageList=1&egnVersion=v2103.5&imei=99001064700010&sdkVersion=2.5.0.0&orderby=all&apphash=4b2edd7b&boardId=88&page=1&imsi=460110394206015&sdkType=&longitude=121.5667724609375&forumType=7&circle=0&pageSize=20&accessToken=9d22238f6cd72830787d5eb4ef15b&appName=%E8%85%90%E6%BC%AB%E6%8E%A7&accessSecret=e529b666669a538789cdbb5176ca5&topOrder=1&sortid=0&latitude=29.82301139831543&forumKey=q0PvFAdGj0lwMvKxw6&platType=1?'
