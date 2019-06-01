@@ -2,7 +2,7 @@
 import os
 import time
 
-adb_path = 'D:/AndroidSdk/platform-tool/'
+adb_path = 'D:/AndroidSdk/platform-tools/'
 
 
 def click_ok():
@@ -34,16 +34,10 @@ def click_back():
     os.system(adb_path + "adb shell input keyevent 4")
     time.sleep(0.5)
 
-i=1
-print('start...')
-while (True):
-    click(800, 350)
-    click_back()
-    click_back()
-    print('click '+str(i)+' times')
-    i=i+1
-    time.sleep(44)
-    click(800, 350)
-    time.sleep(43)
 
-
+while True:
+    click(527, 1702)  # 召唤
+    click(527, 1702)  # 召唤
+    click(510, 1608)  # 逛店铺
+    time.sleep(11)
+    click_back()
