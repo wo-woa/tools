@@ -35,9 +35,18 @@ def click_back():
     time.sleep(0.5)
 
 
+# click(902, 1667)
+# click(930,1546)
+# time.sleep(11)
+# click(918,1714)#4
+# click(874,1590)#领取
 while True:
-    click(527, 1702)  # 召唤
-    click(527, 1702)  # 召唤
-    click(510, 1608)  # 逛店铺
+    # click(527, 1702)  # 召唤
+    # click(527, 1702)  # 召唤
+    # click(510, 1608)  # 逛店铺
+    click(902, 1667)
+    click(920, 1368)
     time.sleep(11)
+    click(977, 1114)  # 领取
+    click(547, 1576)  # 收下
     click_back()
