@@ -10,6 +10,7 @@ import hashlib
 import base64
 from urllib import parse
 import re
+import sys
 
 header = {
     "Content-Type": "application/x-www-form-urlencoded"
@@ -31,7 +32,7 @@ def get_book_list(name):
             # aladdin 是完全匹配的会额外显示，但是也可能不存在
             buffer.append(js['aladdin'][each])
         data_list.append(buffer)
-    except KeyError :
+    except KeyError:
         print('没有完全匹配的')
     for each in js['data']:
         buffer = []
@@ -42,9 +43,11 @@ def get_book_list(name):
 
 
 def pretty_table(data):
-    table = PrettyTable(append_name)
+    table = PrettyTable(append_name, encoding=sys.stdout.encoding)
     for each in data:
         table.add_row(each)
+    table.align['名字'] = '1'
+    table.padding_width = 1
     print(table)
 
 
@@ -64,14 +67,14 @@ def download_text(id):
     js = json.loads(web_data.text)
     print('开始下载小说：' + js['data']['bookName'] + ',作者：' + js['data']['authorName'])
     print('一共有' + str(len(js['data']['chapterList'])) + '卷')
-    with open(js['data']['bookName']+'.txt','w+') as file:
+    with open(js['data']['bookName'] + '.txt', 'w+') as file:
         for num1, each1 in enumerate(js['data']['chapterList']):
             print('开始下载第' + str(num1 + 1) + '卷')
             print('一共有' + str(len(each1['volumeList'])) + '章')
             for each2 in each1['volumeList']:
                 print(each2['chapterName'] + '开始下载')
-                text=get_chapter_content(id,each2['chapterId'])
-                file.write(each2['chapterName']+'\n'+text+'\n\n\n')
+                text = get_chapter_content(id, each2['chapterId'])
+                file.write(each2['chapterName'] + '\n' + text + '\n\n\n')
             file.flush()
     input('下载完成，按任意键退出')
 
@@ -113,14 +116,12 @@ def decrypt(txt):
 
 append = ['title', 'author', 'category', 'tags', 'hh_hot', 'words', 'bid']
 append_name = ['名字', '作者', '分类', '标签', '热度', '字数', 'id']
-name = '暴虎'
-
-
+name = input('请输入查找的书籍名称:   ')
 
 data = get_book_list(name)
 pretty_table(data)
-num=input('请选择下载的书籍')
-id=str(data[int(num)-1][6])
+num = input('请选择下载的书籍')
+id = str(data[int(num) - 1][6])
 print(id)
 download_text(id)
 
