@@ -5,15 +5,16 @@ import traceback
 
 
 class word():
-    def __init__(self, japanese, pronounce, type, meaning, sentence):
+    def __init__(self, japanese, pronounce, type, meaning, sentence, sentence2):
         self.japanese = japanese
         self.pronounce = pronounce
         self.type = type
         self.meaning = meaning
         self.sentence = sentence
+        self.sentence2 = sentence2
 
     def answer(self):
-        return self.pronounce + '\t' + self.type + '\t' + self.meaning + '\t' + self.sentence
+        return self.pronounce + '\t' + self.type + '\t' + self.meaning + '\t' + self.sentence + '\t' + self.sentence2
 
     def total(self):
         return self.japanese + '\t' + self.answer()
@@ -39,7 +40,7 @@ def get_xls_day_words(name, sheet_num, start):
                     i += 1
                     row = sheet.row_values(i)
                     while row[1] != '':
-                        w = word(row[0],row[1], row[2], row[3], row[4])
+                        w = word(row[0], row[1], row[2], row[3], row[4], row[5])
                         word_list.append(w)
                         i += 1
                         row = sheet.row_values(i) if i < sheet.nrows else ['', '']
@@ -65,7 +66,7 @@ def get_xls_week_words(name, sheet_num):
         for i in range(sheet.nrows):
             row = sheet.row_values(i)
             if str(row[1]) != '':
-                w = word(row[0],row[1], row[2], row[3], row[4])
+                w = word(row[0], row[1], row[2], row[3], row[4], row[5])
                 word_list.append(w)
     except Exception as e:
         print(traceback.format_exc())
@@ -126,14 +127,21 @@ def recite_words(words, num=20):
     :param num: 最多错误个数
     :return: 输出错误单词
     '''
+    type = input('请输入复习类型：1(默认)：日语；2：平假名；3：中文: ')
+    type = '1' if type == '' else type
     wrong = 0
     wrong_words = []
     print('total is ' + str(len(words)))
     for each in words:
         if wrong <= num:
-            print(each.japanese, end='')
+            if type==1:
+                print(each.japanese, end='')
+            elif type==2:
+                print(each.pronounce, end='')
+            else:
+                print(each.meaning, end='')
             input()
-            print(each.answer())
+            print(each.total())
             i = input()
             if i != '':
                 wrong += 1
@@ -147,8 +155,8 @@ def recite_words(words, num=20):
 
 
 def review_day():
-    week = input('请输入第几周  ')
-    day = input('请输入第几天  ')
+    week = input('请输入第几周:  ')
+    day = input('请输入第几天:  ')
     week = 4 if week == '' else week
     day = 5 if day == '' else day
     words = get_xls_day_words(file_path, int(week), int(day))
@@ -156,7 +164,7 @@ def review_day():
 
 
 def review_week():
-    week = input('请输入第几周  ')
+    week = input('请输入第几周:  ')
     week = 4 if week == '' else week
     words = get_xls_week_words(file_path, int(week))
     return words
@@ -175,11 +183,12 @@ def get_type(num):
     }.get(num, None)
 
 
-file_path = input('请输入单词xls文件路径(默认nihong.xls)')
-file_path = 'nihong.xls' if file_path == '' else file_path
+# file_path = input('请输入单词xls文件路径(默认nihong.xls)')
+# file_path = 'nihong.xls' if file_path == '' else file_path
+file_path = 'nihong.xls'
 while True:
-    type = input('请输入复习类型：1(默认)：按天；2：按周；3：特定')
-    type = '1' if type == '' else type
+    type = input('请输入复习类型：1：按天；2(默认)：按周；3：特定: ')
+    type = '2' if type == '' else type
     words = get_type(type)()
     if type != '3':
         recite_words(words, 30)
