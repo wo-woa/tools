@@ -4,7 +4,7 @@ import xlrd
 import traceback
 
 
-class word():
+class word:
     def __init__(self, japanese, pronounce, type, meaning, sentence, sentence2):
         self.japanese = japanese
         self.pronounce = pronounce
@@ -21,12 +21,12 @@ class word():
 
 
 def get_xls_day_words(name, sheet_num, start):
-    '''
+    """
     :param name: 文件名
     :param sheet_num: 第几周
     :param start:第几天
     :return:单词类的列表
-    '''
+    """
     workbook = xlrd.open_workbook(name)
     word_list = []
     sheet = workbook.sheet_by_index(sheet_num + 1)
@@ -54,11 +54,11 @@ def get_xls_day_words(name, sheet_num, start):
 
 
 def get_xls_week_words(name, sheet_num):
-    '''
+    """
     :param name: 文件名
     :param sheet_num: 第几周
     :return:单词类的列表
-    '''
+    """
     workbook = xlrd.open_workbook(name)
     word_list = []
     sheet = workbook.sheet_by_index(sheet_num + 1)
@@ -81,10 +81,10 @@ def pprint(list):
 
 
 def read_words(name):
-    '''
+    """
     :param name: 文件名
     :return: 单词列表
-    '''
+    """
     word_list = []
     with open(name, encoding='utf-8') as txt:
         data = txt.readlines()
@@ -96,16 +96,16 @@ def read_words(name):
     return word_list
 
 
-def recite(words, num=20):
-    '''
-    :param words: 单词列表
+def recite(recite_words_list, num=20):
+    """
+    :param recite_words_list: 单词列表
     :param num: 最多错误个数
     :return: 输出错误单词
-    '''
+    """
     wrong = 0
     wrong_words = []
-    print('total is ' + str(len(words)))
-    for each in words:
+    print('total is ' + str(len(recite_words_list)))
+    for each in recite_words_list:
         if wrong < num:
             print(each[0], end='')
             input()
@@ -121,22 +121,22 @@ def recite(words, num=20):
         pprint(i)
 
 
-def recite_words(words, num=20):
-    '''
-    :param words: 单词类列表
+def recite_words(recite_words_list, num=20):
+    """
+    :param recite_words_list: 单词类列表
     :param num: 最多错误个数
     :return: 输出错误单词
-    '''
-    type = input('请输入复习类型：1(默认)：日语；2：平假名；3：中文: ')
-    type = '1' if type == '' else type
+    """
+    recite_type = input('请输入复习类型：1(默认)：日语；2：平假名；3：中文: ')
+    recite_type = '1' if recite_type == '' else recite_type
     wrong = 0
     wrong_words = []
-    print('total is ' + str(len(words)))
-    for each in words:
+    print('total is ' + str(len(recite_words_list)))
+    for each in recite_words_list:
         if wrong <= num:
-            if type==1:
+            if recite_type == '1':
                 print(each.japanese, end='')
-            elif type==2:
+            elif recite_type == '2':
                 print(each.pronounce, end='')
             else:
                 print(each.meaning, end='')
@@ -159,15 +159,15 @@ def review_day():
     day = input('请输入第几天:  ')
     week = 4 if week == '' else week
     day = 5 if day == '' else day
-    words = get_xls_day_words(file_path, int(week), int(day))
-    return words
+    recite_words_list = get_xls_day_words(file_path, int(week), int(day))
+    return recite_words_list
 
 
 def review_week():
     week = input('请输入第几周:  ')
     week = 4 if week == '' else week
-    words = get_xls_week_words(file_path, int(week))
-    return words
+    recite_words_list = get_xls_week_words(file_path, int(week))
+    return recite_words_list
 
 
 def review_typical():
@@ -180,7 +180,7 @@ def get_type(num):
         "1": review_day,
         "2": review_week,
         "3": review_typical
-    }.get(num, None)
+    }.get(num, 'error')  # 最后一个是默认返回
 
 
 # file_path = input('请输入单词xls文件路径(默认nihong.xls)')
