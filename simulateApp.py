@@ -31,7 +31,7 @@ def get_password(str):
             if password:
                 result = result + password.group() + '\n'
         if result != '':
-            return result
+            return result,content
         # 美化输出json中带有中文的
         return json.dumps(content, sort_keys=True, indent=4, separators=(',', ':'), ensure_ascii=False)
     except Exception as e:
@@ -64,12 +64,15 @@ date = 'packageName=com.appbyme.app301097&forumType=7&pageSize=10&accessToken=9d
 # id=155176
 while True:
     # id=155176
-    print('请输入id')
+    print('请输入id:')
     id = input()
     name = 1
     response = requests.post(url, date.format(id=id), headers=headers)
     # print(response.content.decode('gb2312'))
     json_text = response.content.decode(response.apparent_encoding)
-    print(get_password(json_text))
-    if input('空格键继续，其他键退出') != ' ':
+    password,content=get_password(json_text)
+    print(password)
+    if input('问号键详情，其他键跳过:') == '?':
+        print(content)
+    if input('空格键继续，其他键退出:') != ' ':
         break
