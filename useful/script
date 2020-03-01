@@ -1,0 +1,24 @@
+def miao_bi2():
+    click(916, 1700, '领喵币')
+    time.sleep(1)
+    for i in range(4):
+        click(878, 1278, '二')
+        time.sleep(1)
+        swipe_down(500, 1000, 500, 200)
+        time.sleep(15)
+        click_back()
+    for i in range(2):
+        click(878, 1462, '三')
+        time.sleep(1)
+        swipe_down(500,1000,500,200)
+        time.sleep(15)
+        click_back()
+    for i in range(2):
+        click(878, 1647, '四')
+        time.sleep(1)
+        swipe_down(500,1000,500,200)
+        time.sleep(15)
+        click_back()
+    # click(878, 1834, '五')
+
+miao_bi2()
