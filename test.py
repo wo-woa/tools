@@ -3,9 +3,29 @@
 import json
 import sys
 import os
+import cv2
+import re
 
-path=r'E:\tools\sqliteman-win32\Sqliteman-1.2.2\imageformats'
-path='F:\手机\书\杂'
-for root,dirs,files in os.walk(path):
-    for i in files:
-        print(i)
+# 登陆百度并且保存cookie
+from bs4 import BeautifulSoup
+import time
+import json
+import requests
+from lxml import etree
+import string
+import random
+from collections import Counter
+from functools import reduce
+import os
+import threading
+import multiprocessing
+import numpy as np
+import re
+from lxml import etree
+from ctypes import *
+from PIL import Image
+
+
+a=[1,2,3]
+a.pop(len(a)-1)
+print(a)
