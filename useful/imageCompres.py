@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
-'''
+"""
 Author: XXM
 date: 2020/2/17 22:37
 desc: https://www.cnblogs.com/li1992/p/10675769.html
-	  压缩图片到指定大小，主要是生成封面后进行压缩
-'''
+    压缩图片到指定大小，主要是生成封面后进行压缩
+"""
+
 from PIL import Image
 import os
 import shutil
@@ -40,7 +41,7 @@ def resize_image(infile, outfile='', x_s=1376):
     out.save(outfile)
 
 
-def compress_image(infile, outfile='', mb=150, step=10, quality=80):
+def compress_image(infile, outfile='', mb=150, step=10, quality=50):
     """不改变图片尺寸压缩到指定大小
     :param infile: 压缩源文件
     :param outfile: 压缩文件保存地址
@@ -64,7 +65,26 @@ def compress_image(infile, outfile='', mb=150, step=10, quality=80):
     return outfile, get_size(outfile)
 
 
+def compress_folder():
+    type = input("请输入图片压缩类型(1.文件夹（默认）。2.单文件)：")
+    type = '1' if type == '' else type
+    mb = input("请输入压缩目标(KB,默认150)：")
+    mb = 150 if mb == '' else int(mb)
+    step = input("请输入每次调整的压缩比率(默认10)：")
+    step = 10 if step == '' else int(step)
+    quality = input("请输入初始压缩比率(默认50)：")
+    quality = 50 if quality == '' else int(quality)
+    address = input("请输入压缩路径：")
+    if type == '1':
+        files = os.listdir(address)
+        for each in files:
+            print(each + '压缩中...')
+            compress_image(os.path.join(address, each), mb=mb, step=step, quality=quality)
+    else:
+        compress_image(address, mb=mb, step=step, quality=quality)
+
+
 if __name__ == '__main__':
-    i,a=compress_image(r'E:/wf/漫画家/李子昂/封面/孤狼.jpg')
+    # i, a = compress_image(r'E:\[Lenxus][Hombretigre]\fmk10-out.jpg', mb=750, step=3, quality=4)
     # compress_image(r'E:/wf/漫画家/李子昂/封面/【沙豆狼汉化】朝鸡+鸡卵.jpg')
-    print(a)
+    compress_folder()
