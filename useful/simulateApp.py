@@ -22,9 +22,9 @@ def get_password(str):
         for each in content:
             link = re.search('https://pan[\w./-]+', each['infor'])
             if each['infor'].find('才能浏览') > 0:
-                return '需要付费'
+                return '需要付费',content
             if each['infor'].find('查看提取码请回复') > 0:
-                return '查看提取码请回复'
+                return '查看提取码请回复',content
             if link:
                 print(link.group())
             password = re.search(r'验证码.+?\w+|提取码.+?\w+|密码.+?\w+|\[sell=\d+?,\d+?\].+?\[', each['infor'])
