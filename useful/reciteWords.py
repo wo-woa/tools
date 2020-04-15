@@ -149,7 +149,7 @@ def recite_words(recite_words_list, num=20):
     print('answer wrong ' + str(len(wrong_words)))
     save = input('是否要保存到错题中(非空即保存)')
     if save != '':
-        with open('word', 'w+', encoding='utf-8') as file:
+        with open('word.txt', 'w+', encoding='utf-8') as file:
             for i in wrong_words:
                 file.write(i.total() + '\n')
 
@@ -171,7 +171,7 @@ def review_week():
 
 
 def review_typical():
-    a = read_words('word')
+    a = read_words('word.txt')
     return a
 
 
