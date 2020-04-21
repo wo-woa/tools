@@ -35,7 +35,7 @@ class cover():
         files = os.listdir(path)
         files = sorted(files, key=cmp_to_key(compare_string))
         for each in files:
-            if not os.path.isdir(os.path.join(path, each)) and (each.find('jpg') > 0 or each.find('png') > 0):
+            if not os.path.isdir(os.path.join(path, each)) and (each.lower().find('jpg') > 0 or each.lower().find('png') > 0):
                 shutil.copy(os.path.join(path, each), os.path.join(self.save_path, name + each[-4:]))
                 print(name + '-----保存成功')
                 return
