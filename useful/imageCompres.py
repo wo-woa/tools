@@ -19,10 +19,15 @@ def get_size(file):
 
 
 def get_outfile(infile, outfile):
+    ''' 如果格式为png，压缩效率会比较低,默认jpg
+    :param infile:
+    :param outfile:
+    :return:
+    '''
     if outfile:
         return outfile
     dir, suffix = os.path.splitext(infile)
-    outfile = '{}-out{}'.format(dir, suffix)
+    outfile = '{}-out{}'.format(dir, '.jpg')
     return outfile
 
 
@@ -86,5 +91,5 @@ def compress_folder():
 
 if __name__ == '__main__':
     # i, a = compress_image(r'E:\[Lenxus][Hombretigre]\fmk10-out.jpg', mb=750, step=3, quality=4)
-    # compress_image(r'E:/wf/漫画家/李子昂/封面/【沙豆狼汉化】朝鸡+鸡卵.jpg')
-    compress_folder()
+    compress_image(r'E:\wf\漫画家\37.2℃\封面\[37.2℃] いつかさらばさ-狗爹汉化组.png',mb=150, step=3, quality=4)
+    # compress_folder()
