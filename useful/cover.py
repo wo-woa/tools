@@ -20,14 +20,19 @@ def compare_string(first_str, second_str):
     return Shlwapi.StrCmpLogicalW(first_str, second_str)
 
 
-remove_list = ['封面', '杂图']
-
-
 class cover():
     def __init__(self, path):
         self.path = path
         self.save_path = path + '\\封面'
         self.folder_list = []
+        self.remove_map = {'封面': 1, '杂图': 1}
+        self.collect_map = {}
+        self.get_remove_map()
+
+    def get_remove_map(self):
+        files = os.listdir(self.save_path)
+        for name in files:
+            self.remove_map[name[:-4]] = 1
 
     def listdir(self):
         files = os.listdir(self.path)
@@ -39,7 +44,7 @@ class cover():
 
     def copy(self, name, path):
         '''
-        :param name: 文件夹名字
+        :param name: 文件夹名字W
         :param path: 文件夹路径
         :return:
         '''
@@ -57,9 +62,12 @@ class cover():
 
     def getImgFolderPaths(self, path):
         files = os.listdir(path)
-        for each in remove_list:
-            if each in files:
-                files.remove(each)
+        # 过滤一些文件夹
+        files = list(filter(lambda x: x not in self.remove_map, files))
+        # for each in remove_list:
+        #     if each in files:
+        #         files.remove(each)
+        # 递归遍历文件夹
         for each in files:
             fi = os.path.join(path, each)
             if os.path.isdir(fi):
@@ -76,7 +84,8 @@ class cover():
             files = sorted(files, key=cmp_to_key(compare_string))
             for each in files:
                 if not os.path.isdir(os.path.join(path, each)) and (
-                        each.lower().find('jpg') > 0 or each.lower().find('png') > 0):
+                        each.lower().find('jpg') > 0 or each.lower().find('png') > 0
+                        or each.lower().find('jpeg') > 0):
                     pass
 
     def check_all_dir(self, path):
@@ -90,13 +99,14 @@ class cover():
 
     def mutiprocess_run(self):
         p = Pool(4)
-        for file in self.folder_list:
-            # self.copy_compress(i)
-            # p.apply(self.copy_compress, args=(file,))
-            # p.apply_async(self.copy_compress, args=(self,file,))
-            p = threading.Thread(target=self.copy_compress, args=(file,))
-            p.start()
-        p.join()
+        if len(self.folder_list) != 0:
+            for file in self.folder_list:
+                # self.copy_compress(i)
+                # p.apply(self.copy_compress, args=(file,))
+                # p.apply_async(self.copy_compress, args=(self,file,))
+                p = threading.Thread(target=self.copy_compress, args=(file,))
+                p.start()
+            p.join()
 
     def copy_compress(self, file):
         save_file_name = self.copy(file["name"], file['path'])
@@ -107,7 +117,8 @@ class cover():
 
 
 if __name__ == '__main__':
-    path = r'E:\wf\漫画家\37.2℃'
+    # path = r'E:\wf\日曜日汉化组\来自黑波尔之国'
+    path = input('请输入路径: ')
     if not os.path.exists(path + '/封面'):
         os.chdir(path)  # 改变当前工作目录到指定的路径
         os.mkdir('封面')
