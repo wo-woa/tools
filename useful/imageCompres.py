@@ -64,6 +64,7 @@ def compress_image(infile, outfile='', mb=150, step=10, quality=50):
         im = Image.open(infile)
         if quality - step < 0:
             break
+        im=im.convert('RGB')
         im.save(outfile, quality=quality)
         quality -= step
         o_size = get_size(outfile)
@@ -91,5 +92,5 @@ def compress_folder():
 
 if __name__ == '__main__':
     # i, a = compress_image(r'E:\[Lenxus][Hombretigre]\fmk10-out.jpg', mb=750, step=3, quality=4)
-    compress_image(r'E:\wf\漫画家\37.2℃\封面\[37.2℃] いつかさらばさ-狗爹汉化组.png',mb=150, step=3, quality=4)
-    # compress_folder()
+    # compress_image(r'E:\wf\漫画家\37.2℃\封面\[37.2℃] いつかさらばさ-狗爹汉化组.png',mb=150, step=3, quality=4)
+    compress_folder()

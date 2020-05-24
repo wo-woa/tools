@@ -107,6 +107,7 @@ class cover():
                 p = threading.Thread(target=self.copy_compress, args=(file,))
                 p.start()
             p.join()
+        input('压缩成功 ')
 
     def copy_compress(self, file):
         save_file_name = self.copy(file["name"], file['path'])
@@ -125,3 +126,4 @@ if __name__ == '__main__':
     cover = cover(path)
     cover.getImgFolderPaths(path)
     cover.mutiprocess_run()
+    
