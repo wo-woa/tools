@@ -1,1 +1,0 @@
-python adb.py

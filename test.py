@@ -6,7 +6,6 @@ import os
 import cv2
 import re
 
-# 登陆百度并且保存cookie
 from bs4 import BeautifulSoup
 import time
 import json
@@ -24,8 +23,13 @@ import re
 from lxml import etree
 from ctypes import *
 from PIL import Image
+from concurrent import futures
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import requests
+import webbrowser
+import multiprocessing as mp
 
-
-a=[1,2,3]
-a.pop(len(a)-1)
-print(a)
+s='window["nonc"+"e"] = "1d6a2becfa87e642b6679f40a23e9d87";'
+pattern='window\["nonc"\+"e"\] = "(.+?)"'
+d=re.search(pattern,s)
+print(d.group(1))

@@ -12,7 +12,6 @@ from functools import cmp_to_key
 
 def compare_string(first_str, second_str):
     """
-    按照windows的文件名排序规则，如11.jpg会大于2.jpg
     https://docs.microsoft.com/zh-cn/windows/win32/api/shlwapi/nf-shlwapi-strcmplogicalw
     Returns 1 if the string pointed to by psz1 has a greater value than that pointed to by psz2.
     Returns -1 if the string pointed to by psz1 has a lesser value than that pointed to by psz2.
@@ -24,40 +23,22 @@ def compare_string(first_str, second_str):
     return Shlwapi.StrCmpLogicalW(first_str, second_str)
 
 
-def compare_by_ascii(first_str, second_str):
-    for i in range(len(first_str)):
-        if first_str[i]>second_str[i]:
-            return 1
-        elif first_str[i]<second_str[i]:
-            return -1
-    if len(first_str)>len(second_str):
-        return -1
-    else:
-        return 1
-
-def reverse_compare_by_ascii(first_str, second_str):
-    return -1 if compare_by_ascii(first_str, second_str)==1  else 1
-
-def get_name_list(path,compare):
+def get_name_list(path):
     file_list = []
     for file in os.listdir(path):
         if file.lower().endswith('png') or file.lower().endswith('jpg'):
             file_list.append(file)
-    file_list = sorted(file_list, key=cmp_to_key(compare))
+    file_list = sorted(file_list, key=cmp_to_key(compare_string))
     return file_list
 
 
 def rename_by_sort(file_list, path, indent=3):
     for i in range(len(file_list)):
-        rename = str(i+1).zfill(indent) + '.' + file_list[i].split('.')[-1]
+        rename = str(i + 1).zfill(indent) + '.' + file_list[i].split('.')[-1].lower()
         os.rename(os.path.join(path, file_list[i]), os.path.join(path, rename))
 
 
 if __name__ == '__main__':
-    main_path = input('请输入路径: ')
-    indent = int(input('请输入长度: '))
-    main_file_list = get_name_list(main_path,reverse_compare_by_ascii)
-    rename_by_sort(main_file_list, main_path,indent=indent)
-
-    # print(compare_string('11a','2a'))
-    # print(compare_by_ascii('11a', '2a'))
+    main_path = 'E:\wf\漫画家\Bear Tail (Chobi)ちょびくま\日语\张飞'
+    main_file_list = get_name_list(main_path)
+    rename_by_sort(main_file_list, main_path, indent=3)

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
+https://www.52pojie.cn/thread-1253406-1-1.html
 Author: XXM
 date: 2020/9/19 20:09
 desc: 
@@ -90,13 +91,13 @@ def getdata2():
             # nonce = re.findall('window\[".+?(?<=;)', response)[0]
             # nonce = '='.join(nonce.split('=')[1:])[:-1]
             # nonce = execjs.eval(nonce)
-            pattern = 'window\["nonc"\+"e"\] = (.+?);'
+            pattern = 'window\[[noce"\+]+?\] = (.+?);'
             r = re.search(pattern, response)
             nonce = r.group(1)
             nonce = execjs.eval(nonce)
             break
         except:
-            pass
+            print("error")
     T = list(data)
     N = re.findall('\d+[a-zA-Z]+', nonce)
     jlen = len(N)
@@ -177,11 +178,15 @@ def get_data():
     url = 'https://ac.qq.com/ComicView/index/id/531490/cid/1'
     response = requests.get(url).text
     data = re.findall("(?<=var DATA = ').*?(?=')", response)[0]
-    nonce = re.findall('window\[".+?(?<=;)', response)[0]
-    nonce = '='.join(nonce.split('=')[1:])[:-1]
-    nonce = eval(nonce)
-    print(data)
-    print(nonce)
+    # nonce = re.findall('window\[".+?(?<=;)', response)[0]
+    # nonce = '='.join(nonce.split('=')[1:])[:-1]
+    # nonce = eval(nonce)
+    pattern = 'window\[[noce"\+]+?\] = (.+?);'
+    r = re.search(pattern, response)
+    nonce = r.group(1)
+    nonce = execjs.eval(nonce)
+    # print(data)
+    # print(nonce)
     js = execjs.compile(main_js)
     result = js.call('calc', data, nonce)
     print(result)

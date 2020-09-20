@@ -2,7 +2,7 @@ import os
 import shutil
 from ctypes import *
 from functools import cmp_to_key
-import imageCompres
+import imageCompresKit
 from multiprocessing import Pool
 import time, threading
 
@@ -27,6 +27,9 @@ class cover():
         self.folder_list = []
         self.remove_map = {'封面': 1, '杂图': 1}
         self.collect_map = {}
+        if not os.path.exists(path + '/封面'):
+            os.chdir(path)  # 改变当前工作目录到指定的路径
+            os.mkdir('封面')
         self.get_remove_map()
 
     def get_remove_map(self):
@@ -98,32 +101,32 @@ class cover():
                 return False
         return True
 
-    def mutiprocess_run(self):
-        p = Pool(4)
+    def mutiprocess_run(self,kit):
         if len(self.folder_list) != 0:
             for file in self.folder_list:
-                # self.copy_compress(i)
+                self.copy_compress(file,kit)
                 # p.apply(self.copy_compress, args=(file,))
                 # p.apply_async(self.copy_compress, args=(self,file,))
-                p = threading.Thread(target=self.copy_compress, args=(file,))
-                p.start()
-            p.join()
-        input('压缩成功 ')
+            #     p = threading.Thread(target=self.copy_compress, args=(file,))
+            #     p.start()
+            # p.join()
+        kit.appendPlainText('\r\n')
 
-    def copy_compress(self, file):
+    def copy_compress(self, file,kit):
         save_file_name = self.copy(file["name"], file['path'])
-        imageCompres.compress_image(os.path.join(file['path'], save_file_name),
+        imageCompresKit.compress_image(os.path.join(file['path'], save_file_name),
                                     outfile=os.path.join(self.save_path, file["name"] + '.jpg'),
                                     quality=10, step=4)
-        print(file["name"] + '-----压缩成功')
+        # print(file["name"] + '-----压缩成功')
+        kit.appendPlainText(file["name"] + '-----压缩成功')
 
 
 if __name__ == '__main__':
     # path = r'E:\wf\日曜日汉化组\来自黑波尔之国'
     mian_path = input('请输入路径: ')
-    if not os.path.exists(mian_path + '/封面'):
-        os.chdir(mian_path)  # 改变当前工作目录到指定的路径
-        os.mkdir('封面')
+    # if not os.path.exists(mian_path + '/封面'):
+    #     os.chdir(mian_path)  # 改变当前工作目录到指定的路径
+    #     os.mkdir('封面')
     cover = cover(mian_path)
     cover.getImgFolderPaths(mian_path)
     cover.mutiprocess_run()
