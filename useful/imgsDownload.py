@@ -18,9 +18,10 @@ def get_img_urls(url):
     html = requests.get(url)
     ehtml = etree.HTML(html.text)
     urls = ehtml.xpath('//*[@id="js_content"]/p/img/@data-src')
+    name = ehtml.xpath('//*[@id="activity-name"]')[0].text.strip()
     # print(len(urls))
     # print(urls[0])
-    return urls
+    return name, urls
 
 
 def get_suffix(url):
@@ -42,16 +43,25 @@ def download_file(url, store_path, filename):
     print(filename + "下载完成！")
 
 
+def make_dir(path, name):
+    if not os.path.exists(os.path.join(path, name)):
+        os.chdir(path)  # 改变当前工作目录到指定的路径
+        os.mkdir(name)
+
+
 if __name__ == '__main__':
-    main_url = "https://mp.weixin.qq.com/s/3Vzrstwsb2f6YV1ysAilbQ"
-    main_store_path = "E:/1/"
-    main_urls = get_img_urls(main_url)
+    main_url = "https://mp.weixin.qq.com/s?__biz=MzU3MTcwNDQyNA==&mid=2247487401&idx=1&sn=c8a84aa7aaf150af4691e7af3f9ff965&chksm=fcdd5aaecbaad3b88d8cf751b64c98a1199f6cbba98169ebb1e1f830e236385c1366d5f6659d&scene=178#rd"
+    main_store_path = "E:/"
+    main_name, main_urls = get_img_urls(main_url)
+    print(main_name)
+    make_dir(main_store_path,main_name)
+
     # p = Pool(5)
     # for i in range(len(main_urls)):
     #     p = threading.Thread(target=download_file, args=(main_urls[i], main_store_path, str(i + 1).zfill(3)))
     #     p.start()
     # p.join()
-
+    main_store_path = main_store_path + main_name + '/'
     with ThreadPoolExecutor(max_workers=5) as t:
         obj_list = []
         for i in range(len(main_urls)):
