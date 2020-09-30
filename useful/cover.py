@@ -5,7 +5,8 @@ from functools import cmp_to_key
 import imageCompres
 from multiprocessing import Pool
 import time, threading
-
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from rich import print
 
 def compare_string(first_str, second_str):
     '''
@@ -20,7 +21,7 @@ def compare_string(first_str, second_str):
     return Shlwapi.StrCmpLogicalW(first_str, second_str)
 
 
-class cover():
+class Cover():
     def __init__(self, path):
         self.path = path
         self.save_path = path + '\\封面'
@@ -30,6 +31,10 @@ class cover():
         self.get_remove_map()
 
     def get_remove_map(self):
+        """
+        将封面文件夹中文件加入过滤map中
+        :return:
+        """
         files = os.listdir(self.save_path)
         for name in files:
             self.remove_map[name[:-4]] = 1
@@ -44,6 +49,7 @@ class cover():
 
     def copy(self, name, path):
         '''
+        获取name文件夹内排序后的第一张图片的名字
         :param name: 文件夹名字
         :param path: 文件夹路径
         :return:
@@ -52,12 +58,14 @@ class cover():
         files = sorted(files, key=cmp_to_key(compare_string))
         for each in files:
             if not os.path.isdir(os.path.join(path, each)) and (
-                    each.lower().find('jpg') > 0 or each.lower().find('png') > 0):
+                    each.lower().endswith('jpg') > 0 or each.lower().endswith('png') > 0
+                    or each.lower().endswith('jpeg') > 0):
                 # shutil.copy(os.path.join(path, each), os.path.join(self.save_path, name + each[-4:]))
                 # print(name + '-----保存成功')
                 # return os.path.join(self.save_path, name + each[-4:])
                 return each
-        print(name + "\033[31;49m没有符合的\033[0m")
+        # print(name + "\033[31;49m没有符合的\033[0m")
+        print("[#7CFC00]{0}没有符合的[/#7CFC00]".format(name))
         return ''
 
     def getImgFolderPaths(self, path):
@@ -99,31 +107,44 @@ class cover():
         return True
 
     def mutiprocess_run(self):
-        p = Pool(4)
+        #多进程
+        # p = Pool(4)
+        # if len(self.folder_list) != 0:
+        #     for file in self.folder_list:
+        #         # self.copy_compress(i)
+        #         # p.apply(self.copy_compress, args=(file,))
+        #         # p.apply_async(self.copy_compress, args=(self,file,))
+        #         p = threading.Thread(target=self.copy_compress, args=(file,))
+        #         p.start()
+        #     p.join()
+
+        # 多线程
         if len(self.folder_list) != 0:
-            for file in self.folder_list:
-                # self.copy_compress(i)
-                # p.apply(self.copy_compress, args=(file,))
-                # p.apply_async(self.copy_compress, args=(self,file,))
-                p = threading.Thread(target=self.copy_compress, args=(file,))
-                p.start()
-            p.join()
-        input('压缩成功 ')
+            with ThreadPoolExecutor(max_workers=5) as t:
+                obj_list = []
+                for file in self.folder_list:
+                    obj = t.submit(self.copy_compress, file)
+                for future in as_completed(obj_list):
+                    future.result()
 
     def copy_compress(self, file):
         save_file_name = self.copy(file["name"], file['path'])
-        imageCompres.compress_image(os.path.join(file['path'], save_file_name),
-                                    outfile=os.path.join(self.save_path, file["name"] + '.jpg'),
-                                    quality=10, step=4)
-        print(file["name"] + '-----压缩成功')
+        if save_file_name:
+            imageCompres.compress_image(os.path.join(file['path'], save_file_name),
+                                        outfile=os.path.join(self.save_path, file["name"] + '.jpg'),
+                                        quality=10, step=4)
+            print(file["name"] + '-----压缩成功')
 
 
 if __name__ == '__main__':
-    # path = r'E:\wf\日曜日汉化组\来自黑波尔之国'
-    mian_path = input('请输入路径: ')
-    if not os.path.exists(mian_path + '/封面'):
-        os.chdir(mian_path)  # 改变当前工作目录到指定的路径
-        os.mkdir('封面')
-    cover = cover(mian_path)
-    cover.getImgFolderPaths(mian_path)
-    cover.mutiprocess_run()
+    while True:
+        # path = r'E:\wf\日曜日汉化组\来自黑波尔之国'
+        mian_path = input('请输入路径: ')
+        if not os.path.exists(mian_path + '/封面'):
+            os.chdir(mian_path)  # 改变当前工作目录到指定的路径
+            os.mkdir('封面')
+        cover = Cover(mian_path)
+        cover.getImgFolderPaths(mian_path)
+        cover.mutiprocess_run()
+        if input('回车退出，非空继续:') == '':
+            break
