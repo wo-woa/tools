@@ -94,3 +94,4 @@ if __name__ == '__main__':
     # i, a = compress_image(r'E:\[Lenxus][Hombretigre]\fmk10-out.jpg', mb=750, step=3, quality=4)
     # compress_image(r'E:\wf\漫画家\37.2℃\封面\[37.2℃] いつかさらばさ-狗爹汉化组.png',mb=150, step=3, quality=4)
     compress_folder()
+    input("压缩完成！")
