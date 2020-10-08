@@ -8,6 +8,7 @@ desc:
 import os
 from ctypes import *
 from functools import cmp_to_key
+import re
 
 
 def compare_string(first_str, second_str):
@@ -24,21 +25,37 @@ def compare_string(first_str, second_str):
     return Shlwapi.StrCmpLogicalW(first_str, second_str)
 
 
+def my_input(tip, pattern=None, default=None):
+    while True:
+        text = input(tip)
+        data = None
+        if text == '' and default != None:
+            return default
+        if pattern:
+            data = re.match(pattern, text)
+        if data:
+            return text
+        else:
+            print("请输入正确格式！")
+
+
 def compare_by_ascii(first_str, second_str):
     for i in range(len(first_str)):
-        if first_str[i]>second_str[i]:
+        if first_str[i] > second_str[i]:
             return 1
-        elif first_str[i]<second_str[i]:
+        elif first_str[i] < second_str[i]:
             return -1
-    if len(first_str)>len(second_str):
+    if len(first_str) > len(second_str):
         return -1
     else:
         return 1
 
-def reverse_compare_by_ascii(first_str, second_str):
-    return -1 if compare_by_ascii(first_str, second_str)==1  else 1
 
-def get_name_list(path,compare):
+def reverse_compare_by_ascii(first_str, second_str):
+    return -1 if compare_by_ascii(first_str, second_str) == 1 else 1
+
+
+def get_name_list(path, compare):
     file_list = []
     for file in os.listdir(path):
         if file.lower().endswith('png') or file.lower().endswith('jpg'):
@@ -49,15 +66,17 @@ def get_name_list(path,compare):
 
 def rename_by_sort(file_list, path, indent=3):
     for i in range(len(file_list)):
-        rename = str(i+1).zfill(indent) + '.' + file_list[i].split('.')[-1]
+        rename = str(i + 1).zfill(indent) + '.' + file_list[i].split('.')[-1]
         os.rename(os.path.join(path, file_list[i]), os.path.join(path, rename))
 
 
 if __name__ == '__main__':
-    main_path = input('请输入路径: ')
-    indent = int(input('请输入长度: '))
-    main_file_list = get_name_list(main_path,reverse_compare_by_ascii)
-    rename_by_sort(main_file_list, main_path,indent=indent)
-
+    main_path = my_input('请输入路径: ', '^.+$')
+    indent = int(my_input('请输入长度: ', '^\d$'))
+    compare_type = my_input('请输入排序方式:1. windows自带排序(默认) 2.ascii排序', '^\d$', '1')
+    compare_type = compare_string if compare_type == '1' else compare_by_ascii
+    main_file_list = get_name_list(main_path, compare_type)
+    rename_by_sort(main_file_list, main_path, indent=indent)
+    input('重命名完成! ')
     # print(compare_string('11a','2a'))
     # print(compare_by_ascii('11a', '2a'))
