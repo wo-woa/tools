@@ -71,12 +71,15 @@ def rename_by_sort(file_list, path, indent=3):
 
 
 if __name__ == '__main__':
-    main_path = my_input('请输入路径: ', '^.+$')
-    indent = int(my_input('请输入长度: ', '^\d$'))
-    compare_type = my_input('请输入排序方式:1. windows自带排序(默认) 2.ascii排序', '^\d$', '1')
-    compare_type = compare_string if compare_type == '1' else compare_by_ascii
-    main_file_list = get_name_list(main_path, compare_type)
-    rename_by_sort(main_file_list, main_path, indent=indent)
-    input('重命名完成! ')
+    while True:
+        main_path = my_input('请输入路径: ', r'^\w:\\.+$')
+        indent = int(my_input('请输入长度(默认3): ', '^\d$', '3'))
+        compare_type = my_input('请输入排序方式:1. windows自带排序(默认) 2.ascii排序', '^\d$', '1')
+        compare_type = compare_string if compare_type == '1' else compare_by_ascii
+        main_file_list = get_name_list(main_path, compare_type)
+        rename_by_sort(main_file_list, main_path, indent=indent)
+        if input('重命名完成！回车退出，非空继续:') == '':
+            break
+
     # print(compare_string('11a','2a'))
     # print(compare_by_ascii('11a', '2a'))
