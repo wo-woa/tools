@@ -15,6 +15,11 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 
 def get_img_urls(url):
+    """
+    获取图片链接和名字
+    :param url:
+    :return:
+    """
     html = requests.get(url)
     ehtml = etree.HTML(html.text)
     urls = ehtml.xpath('//*[@id="js_content"]/p/img/@data-src')
@@ -25,6 +30,11 @@ def get_img_urls(url):
 
 
 def get_suffix(url):
+    """
+    获取后缀
+    :param url:
+    :return:
+    """
     pattern = 'wx_fmt=(\w+)'
     data = re.search(pattern, url)
     if data:
@@ -35,6 +45,13 @@ def get_suffix(url):
 
 
 def download_file(url, store_path, filename):
+    """
+    下载文件
+    :param url:
+    :param store_path:
+    :param filename:
+    :return:
+    """
     suffix = get_suffix(url)
     filepath = os.path.join(store_path, filename + "." + suffix)
     file_data = requests.get(url, allow_redirects=True).content
@@ -44,6 +61,12 @@ def download_file(url, store_path, filename):
 
 
 def make_dir(path, name):
+    """
+    创建文件夹
+    :param path:
+    :param name:
+    :return:
+    """
     if not os.path.exists(os.path.join(path, name)):
         os.chdir(path)  # 改变当前工作目录到指定的路径
         os.mkdir(name)
@@ -54,14 +77,17 @@ if __name__ == '__main__':
     main_store_path = "E:/"
     main_name, main_urls = get_img_urls(main_url)
     print(main_name)
-    make_dir(main_store_path,main_name)
+    make_dir(main_store_path, main_name)
+    main_store_path = main_store_path + main_name + '/'
 
+    # 多进程
     # p = Pool(5)
     # for i in range(len(main_urls)):
     #     p = threading.Thread(target=download_file, args=(main_urls[i], main_store_path, str(i + 1).zfill(3)))
     #     p.start()
     # p.join()
-    main_store_path = main_store_path + main_name + '/'
+
+    # 多线程
     with ThreadPoolExecutor(max_workers=5) as t:
         obj_list = []
         for i in range(len(main_urls)):
