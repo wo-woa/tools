@@ -62,7 +62,7 @@ def resize_image(infile, outfile='', x_s=1376):
     out.save(outfile)
 
 
-def compress_image(infile, outfile='', mb=150, step=10, quality=50, name=''):
+def compress_image(infile, outfile='', mb=150, step=10, quality=50, name=None):
     """不改变图片尺寸压缩到指定大小
     :param infile: 压缩源文件
     :param outfile: 压缩文件保存地址
@@ -84,7 +84,8 @@ def compress_image(infile, outfile='', mb=150, step=10, quality=50, name=''):
         im.save(outfile, quality=quality)
         quality -= step
         o_size = get_size(outfile)
-    print(name+"压缩完成。")
+    if name:
+        print(name + "压缩完成。")
     return outfile, get_size(outfile)
 
 
