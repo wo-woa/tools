@@ -28,8 +28,6 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import requests
 import webbrowser
 import multiprocessing as mp
+from rich import print
+import sqlite3
 
-s='window["nonc"+"e"] = "1d6a2becfa87e642b6679f40a23e9d87";'
-pattern='window\["nonc"\+"e"\] = "(.+?)"'
-d=re.search(pattern,s)
-print(d.group(1))

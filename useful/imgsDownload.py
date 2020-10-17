@@ -73,7 +73,7 @@ def make_dir(path, name):
 
 
 if __name__ == '__main__':
-    main_url = "https://mp.weixin.qq.com/s?__biz=MzU3MTcwNDQyNA==&mid=2247487401&idx=1&sn=c8a84aa7aaf150af4691e7af3f9ff965&chksm=fcdd5aaecbaad3b88d8cf751b64c98a1199f6cbba98169ebb1e1f830e236385c1366d5f6659d&scene=178#rd"
+    main_url = "https://mp.weixin.qq.com/s?__biz=MzU3MTcwNDQyNA==&mid=2247487644&idx=1&sn=d52967d233192208ddff7e1258aab9be&chksm=fcdd459bcbaacc8d4a70b88cb57cee19ace36f8ec89ce626491c425e74d1464556b972f31d8c&scene=178&cur_album_id=1475785131553570820#rd"
     main_store_path = "E:/"
     main_name, main_urls = get_img_urls(main_url)
     print(main_name)

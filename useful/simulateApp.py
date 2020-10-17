@@ -41,7 +41,7 @@ def get_password(str):
 
 # url='www.fumankong.com'
 
-main_url = 'https://www.fumankong.com//mobcent/app/web/index.php?r=forum/postlist'
+main_url = 'https://www.fumankong.cc//mobcent/app/web/index.php?r=forum/postlist'
 main_date = 'packageName=com.appbyme.app301097&forumType=7&pageSize=10&accessToken=9d22238f6cd72830787d5eb4ef15b' \
             '&appName=%E8%85%90%E6%BC%AB%E6%8E%A7&topicId={id}&authorId=0&egnVersion=v2103.5' \
             '&accessSecret=e529b666669a538789cdbb5176ca5&sdkVersion=2.5.0.0&imei=99001064700010&apphash=4b2edd7b' \
@@ -66,7 +66,6 @@ while True:
     # id=155176
     print('请输入id:')
     main_id = input()
-    name = 1
     response = requests.post(main_url, main_date.format(id=main_id), headers=headers)
     # print(response.content.decode('gb2312'))
     json_text = response.content.decode(response.apparent_encoding)
