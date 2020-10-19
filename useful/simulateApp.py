@@ -51,7 +51,8 @@ main_date = 'packageName=com.appbyme.app301097&forumType=7&pageSize=10&accessTok
 #        '&sdkType=&longitude=121.5667724609375&forumType=7&circle=0&pageSize=20' \
 #        '&accessToken=9d22238f6cd72830787d5eb4ef15b&appName=%E8%85%90%E6%BC%AB%E6%8E%A7' \
 #        '&accessSecret=e529b666669a538789cdbb5176ca5&topOrder=1&sortid=0&latitude=29.82301139831543' \
-#        '&forumKey=q0PvFAdGj0lwMvKxw6&platType=1?'
+#        '&forumKey=q0PvFAdGj0lwMvKxw6&platType=1?''
+# 获取列表数据
 # url = 'https://www.fumankong.com//mobcent/app/web/index.php?r=forum/topiclistex'
 # date = 'latitude=29.823081970214844&forumType=7&pageSize=20&forumKey=q0PvFAdGj0lwMvKxw6&sdkType=' \
 #        '&imsi=460110210578654&apphash=4b2edd7b&packageName=com.appbyme.app301097&sorts=&egnVersion=v2103.5' \
@@ -61,13 +62,10 @@ main_date = 'packageName=com.appbyme.app301097&forumType=7&pageSize=10&accessTok
 #        '&sdkVersion=2.5.0.0&page=1&filterType=&circle=0&platType=1'
 
 
-# id=155176
 while True:
-    # id=155176
     print('请输入id:')
     main_id = input()
     response = requests.post(main_url, main_date.format(id=main_id), headers=headers)
-    # print(response.content.decode('gb2312'))
     json_text = response.content.decode(response.apparent_encoding)
     main_password, main_content = get_password(json_text)
     print(main_password)
