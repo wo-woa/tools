@@ -27,7 +27,8 @@ class Cover:
         self.path = path
         self.save_path = path + '\\封面'
         self.folder_list = []
-        self.remove_map = {'封面': 1, '杂图': 1}
+        # 2表示该文件存在，1不存在
+        self.remove_map = {'封面': 2, '杂图': 2}
         self.collect_map = {}
         self.get_remove_map()
 
@@ -70,9 +71,15 @@ class Cover:
         return ''
 
     def get_img_folder_paths(self, path):
+        """
+        获取符合要求的压缩文件夹和名字
+        :param path:
+        :return:
+        """
         files = os.listdir(path)
         # 过滤一些文件夹
-        files = list(filter(lambda x: x not in self.remove_map, files))
+        # files = self.filter_folds(files)
+        # files = list(filter(lambda x: x not in self.remove_map, files))
         # for each in remove_list:
         #     if each in files:
         #         files.remove(each)
@@ -81,11 +88,19 @@ class Cover:
             fi = os.path.join(path, each)
             if os.path.isdir(fi):
                 if not self.check_all_dir(fi):
-                    m = {"name": each, "path": fi}
-                    self.folder_list.append(m)
-                    # print(fi)
+                    if each not in self.remove_map:
+                        m = {"name": each, "path": fi}
+                        self.folder_list.append(m)
+                    else:
+                        # 标记这个文件还存在
+                        self.remove_map[each] = 2
                 elif self.check_all_dir(fi):
                     self.get_img_folder_paths(fi)
+
+    def get_deletes(self):
+        for key in self.remove_map:
+            if self.remove_map[key] == 1:
+                print(key + "----不存在")
 
     def get_image_path(self):
         for each in self.folder_list:
@@ -99,6 +114,10 @@ class Cover:
 
     @staticmethod
     def check_all_dir(path):
+        """
+        检查该路径下是否都是文件夹
+        :return:
+        """
         files = os.listdir(path)
         if len(files) == 0:
             return False
@@ -136,6 +155,18 @@ class Cover:
                                         quality=10, step=4)
             print(file["name"] + '-----压缩成功')
 
+    def filter_folds(self, files):
+        result = []
+        for each in files:
+            if each not in self.remove_map:
+                result.append(each)
+            else:
+                self.remove_map[each] = 2
+        for key in self.remove_map:
+            if self.remove_map[key] == 1:
+                print(key + "----不存在")
+        return result
+
 
 if __name__ == '__main__':
     while True:
@@ -145,6 +176,7 @@ if __name__ == '__main__':
             os.mkdir('封面')
         cover = Cover(mian_path)
         cover.get_img_folder_paths(mian_path)
+        cover.get_deletes()
         cover.mutiprocess_run()
         if input('回车退出，非空继续:') == '':
             break
