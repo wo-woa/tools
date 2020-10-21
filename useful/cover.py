@@ -98,6 +98,10 @@ class Cover:
                     self.get_img_folder_paths(fi)
 
     def get_deletes(self):
+        """
+        输出已经删除的文件名字
+        :return:
+        """
         for key in self.remove_map:
             if self.remove_map[key] == 1:
                 print(key + "----不存在")
@@ -155,17 +159,7 @@ class Cover:
                                         quality=10, step=4)
             print(file["name"] + '-----压缩成功')
 
-    def filter_folds(self, files):
-        result = []
-        for each in files:
-            if each not in self.remove_map:
-                result.append(each)
-            else:
-                self.remove_map[each] = 2
-        for key in self.remove_map:
-            if self.remove_map[key] == 1:
-                print(key + "----不存在")
-        return result
+
 
 
 if __name__ == '__main__':
