@@ -11,7 +11,7 @@ headers = {
                   'Chrome/28.0.1500.72 Safari/537.36',
     'Content-Type': 'application/x-www-form-urlencoded'
 }
-main_url = 'https://www.fumankong.com//mobcent/app/web/index.php?r=forum/postlist'
+main_url = 'https://www.fumankong.cc//mobcent/app/web/index.php?r=forum/postlist'
 main_date = 'packageName=com.appbyme.app301097&forumType=7&pageSize=10&accessToken=9d22238f6cd72830787d5eb4ef15b' \
             '&appName=%E8%85%90%E6%BC%AB%E6%8E%A7&topicId={id}&authorId=0&egnVersion=v2103.5' \
             '&accessSecret=e529b666669a538789cdbb5176ca5&sdkVersion=2.5.0.0&imei=99001064700010&apphash=4b2edd7b' \

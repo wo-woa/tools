@@ -20,7 +20,7 @@ def compare_string(first_str, second_str):
     return Shlwapi.StrCmpLogicalW(first_str, second_str)
 
 
-class cover():
+class Cover():
     def __init__(self, path):
         self.path = path
         self.save_path = path + '\\封面'
