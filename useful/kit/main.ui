@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Tools</string>
   </property>
   <widget class="QTabWidget" name="tabWidget">
    <property name="geometry">
@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>3</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -85,11 +85,11 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="tab_3">
+   <widget class="QWidget" name="tab_2">
     <attribute name="title">
      <string>生成封面</string>
     </attribute>
-    <widget class="QPlainTextEdit" name="widget1_content_2">
+    <widget class="QPlainTextEdit" name="widget2_content">
      <property name="geometry">
       <rect>
        <x>50</x>
@@ -99,7 +99,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QPushButton" name="widget1_getpassword_2">
+    <widget class="QPushButton" name="widget2_button_cover">
      <property name="geometry">
       <rect>
        <x>570</x>
@@ -129,7 +129,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="tab_2">
+   <widget class="QWidget" name="tab_3">
     <attribute name="title">
      <string>重命名</string>
     </attribute>
@@ -166,10 +166,55 @@
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>90</y>
+       <y>110</y>
        <width>641</width>
-       <height>281</height>
+       <height>261</height>
       </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="widget3_lineedit_length">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>80</y>
+       <width>41</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="dragEnabled">
+      <bool>false</bool>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
+     </property>
+     <property name="placeholderText">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>80</y>
+       <width>41</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>长度：</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_7">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>80</y>
+       <width>91</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>3的时候：001</string>
      </property>
     </widget>
    </widget>
@@ -242,7 +287,7 @@
       </property>
      </item>
     </widget>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="widget4_label_type">
      <property name="geometry">
       <rect>
        <x>50</x>
@@ -255,7 +300,7 @@
       <string>类型：</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="widget4_label_target">
      <property name="geometry">
       <rect>
        <x>190</x>
@@ -268,7 +313,7 @@
       <string>目标：</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_3">
+    <widget class="QLabel" name="widget4_label_kb">
      <property name="geometry">
       <rect>
        <x>280</x>
@@ -300,7 +345,7 @@
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="label_4">
+    <widget class="QLabel" name="widget4_label_rate">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -323,7 +368,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLabel" name="label_5">
+    <widget class="QLabel" name="widget4_label_compress_rate">
      <property name="geometry">
       <rect>
        <x>440</x>
@@ -334,19 +379,6 @@
      </property>
      <property name="text">
       <string>压缩比率：</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton">
-     <property name="geometry">
-      <rect>
-       <x>600</x>
-       <y>80</y>
-       <width>82</width>
-       <height>25</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>PushButton</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="widget4_lineedit_target">

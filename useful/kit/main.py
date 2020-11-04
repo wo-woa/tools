@@ -26,11 +26,9 @@ class SettinInterface:
         self.load_config()
         self.ui.widget1_getpassword.clicked.connect(self.simulate_app)
         self.ui.widget1_getdetail.clicked.connect(self.get_content)
-        # self.ui.pushButton_6.clicked.connect(self.copy_to_baidu)
-        # self.ui.pushButton_7.clicked.connect(self.get_cover)
+        self.ui.widget2_button_cover.clicked.connect(self.get_cover)
         self.ui.widget3_rename.clicked.connect(self.rename)
         self.ui.widget4_compress.clicked.connect(self.compress)
-        self.ui.pushButton.clicked.connect(self.test)
 
     def simulate_app(self):
         text = self.ui.widget1_url.text()
@@ -46,10 +44,10 @@ class SettinInterface:
         self.ui.tabWidget.setCurrentIndex(0)
 
     def get_cover(self):
-        path = self.ui.plainTextEdit_4.toPlainText()
+        path = self.ui.widget2_url.text()
         c = Cover(path)
         c.getImgFolderPaths(path)
-        c.mutiprocess_run(self.ui.plainTextEdit_5)
+        c.mutiprocess_run(self.ui.widget2_content)
 
     def rename(self):
         path = self.ui.widget3_url.text()
@@ -90,6 +88,8 @@ class SettinInterface:
         # try:
         with open('.\\config\\settin.json', 'r') as file:
             self.data = json.load(file)
+
+        self.ui.widget3_lineedit_length.setText(self.data["widget3"]["length"])
         self.ui.widget4_combobox_type.setCurrentIndex(int(self.data["widget4"]["type"]))
         self.ui.widget4_lineedit_target.setText(self.data["widget4"]["target"])
         self.ui.widget4_lineedit_init_rate.setText(self.data["widget4"]["init_rate"])
@@ -100,7 +100,9 @@ class SettinInterface:
 
     def closeEvent(self):
         # try:
-        widget4 = {}
+        widget3 = dict()
+        widget3["length"] = self.ui.widget3_lineedit_length.text()
+        widget4 = dict()
         widget4["type"] = self.ui.widget4_combobox_type.currentIndex()
         widget4["target"] = self.ui.widget4_lineedit_target.text()
         widget4["init_rate"] = self.ui.widget4_lineedit_init_rate.text()

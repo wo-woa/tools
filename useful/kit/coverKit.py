@@ -8,14 +8,14 @@ import time, threading
 
 
 def compare_string(first_str, second_str):
-    '''
+    """
     https://docs.microsoft.com/zh-cn/windows/win32/api/shlwapi/nf-shlwapi-strcmplogicalw
     Returns 1 if the string pointed to by psz1 has a greater value than that pointed to by psz2.
     Returns -1 if the string pointed to by psz1 has a lesser value than that pointed to by psz2.
     :param first_str:
     :param second_str:
     :return:0,1,-1
-    '''
+    """
     Shlwapi = windll.LoadLibrary("Shlwapi")
     return Shlwapi.StrCmpLogicalW(first_str, second_str)
 
@@ -46,11 +46,11 @@ class Cover():
                 self.copy(each, os.path.join(self.path, each))
 
     def copy(self, name, path):
-        '''
+        """
         :param name: 文件夹名字
         :param path: 文件夹路径
         :return:
-        '''
+        """
         files = os.listdir(path)
         files = sorted(files, key=cmp_to_key(compare_string))
         for each in files:
@@ -121,12 +121,4 @@ class Cover():
         kit.appendPlainText(file["name"] + '-----压缩成功')
 
 
-if __name__ == '__main__':
-    # path = r'E:\wf\日曜日汉化组\来自黑波尔之国'
-    mian_path = input('请输入路径: ')
-    # if not os.path.exists(mian_path + '/封面'):
-    #     os.chdir(mian_path)  # 改变当前工作目录到指定的路径
-    #     os.mkdir('封面')
-    cover = cover(mian_path)
-    cover.getImgFolderPaths(mian_path)
-    cover.mutiprocess_run()
+

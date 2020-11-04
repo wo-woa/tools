@@ -63,6 +63,33 @@ def resize_image(infile, outfile='', x_s=1376):
     out.save(outfile)
 
 
+def compress_image(infile, outfile='', mb=150, step=10, quality=50, name=None):
+    """不改变图片尺寸压缩到指定大小
+    :param infile: 压缩源文件
+    :param outfile: 压缩文件保存地址
+    :param mb: 压缩目标，KB
+    :param step: 每次调整的压缩比率
+    :param quality: 初始压缩比率
+    :return: 压缩文件地址，压缩文件大小
+    """
+    o_size = get_size(infile)
+    outfile = get_outfile(infile, outfile)
+    if o_size <= mb:
+        shutil.copy(infile, outfile)
+        return infile, o_size
+    while o_size > mb:
+        im = Image.open(infile)
+        if quality - step < 0:
+            break
+        im = im.convert('RGB')
+        im.save(outfile, quality=quality)
+        quality -= step
+        o_size = get_size(outfile)
+    if name:
+        print(name + "压缩完成。")
+    return outfile, get_size(outfile)
+
+
 class CompressThread(QThread):
     signal = Signal(object)
 
