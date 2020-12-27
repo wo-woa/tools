@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -204,17 +204,36 @@
       <string>长度：</string>
      </property>
     </widget>
+    <widget class="QLineEdit" name="widget3_lineedit_start">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>80</y>
+       <width>41</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="dragEnabled">
+      <bool>false</bool>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
+     </property>
+     <property name="placeholderText">
+      <string/>
+     </property>
+    </widget>
     <widget class="QLabel" name="label_7">
      <property name="geometry">
       <rect>
        <x>140</x>
        <y>80</y>
-       <width>91</width>
+       <width>41</width>
        <height>20</height>
       </rect>
      </property>
      <property name="text">
-      <string>3的时候：001</string>
+      <string>起始：</string>
      </property>
     </widget>
    </widget>

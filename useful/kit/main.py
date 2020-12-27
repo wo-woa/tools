@@ -5,10 +5,11 @@ Author: XXM
 date: 2020/8/17 14:09
 desc: 
 """
+import json
+
 from PySide2.QtGui import QIcon, QColor
 from PySide2.QtUiTools import QUiLoader
 from PySide2.QtWidgets import *
-import json
 
 import fileRenamKite
 import imageCompresKit
@@ -51,7 +52,9 @@ class SettinInterface:
 
     def rename(self):
         path = self.ui.widget3_url.text()
-        self.thread = fileRenamKite.RenameThread(path)
+        length = self.ui.widget3_lineedit_length.text()
+        start = self.ui.widget3_lineedit_start.text()
+        self.thread = fileRenamKite.RenameThread(path, start, length)
         self.thread.signal.connect(self.widget3_display)
         self.thread.start()
         # main_file_list = fileRenamKite.get_name_list(path)

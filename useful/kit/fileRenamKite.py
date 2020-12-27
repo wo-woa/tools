@@ -8,6 +8,7 @@ desc:
 import os
 from ctypes import *
 from functools import cmp_to_key
+
 from PySide2.QtCore import QThread, Signal
 
 
@@ -27,9 +28,11 @@ def compare_string(first_str, second_str):
 class RenameThread(QThread):
     signal = Signal(object)
 
-    def __init__(self, path):
+    def __init__(self, path, start_num, length=3):
         super().__init__()
         self.path = path
+        self.start_num = 0 if start_num == '' else int(start_num)
+        self.length = 3 if length == '' else int(length)
 
     def get_name_list(self, path):
         file_list = []
@@ -39,14 +42,14 @@ class RenameThread(QThread):
         file_list = sorted(file_list, key=cmp_to_key(compare_string))
         return file_list
 
-    def rename_by_sort(self, file_list, path, indent=3):
+    def rename_by_sort(self, file_list, path, indent):
         for i in range(len(file_list)):
-            rename = str(i + 1).zfill(indent) + '.' + file_list[i].split('.')[-1].lower()
+            rename = str(i + 1 +self.start_num).zfill(indent) + '.' + file_list[i].split('.')[-1].lower()
             self.signal.emit(rename)
             os.rename(os.path.join(path, file_list[i]), os.path.join(path, rename))
 
     def run(self):
         file_list = self.get_name_list(self.path)
-        self.rename_by_sort(file_list, self.path)
+        self.rename_by_sort(file_list, self.path, self.length)
         name = self.path.split('\\')[-1]
         self.signal.emit(name + "重命名完成\n")
