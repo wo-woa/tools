@@ -67,8 +67,8 @@ class SettinInterface:
         path = self.ui.widget4_url.text()
         type = int(self.ui.widget4_combobox_type.currentIndex())
         mb = int(self.ui.widget4_lineedit_target.text())
-        step = int(self.ui.widget4_lineedit_init_rate.text())
-        quality = int(self.ui.widget4_lineedit_compress_rate.text())
+        quality = int(self.ui.widget4_lineedit_init_rate.text())
+        step = int(self.ui.widget4_lineedit_compress_rate.text())
         self.thread = imageCompresKit.CompressThread(path, type, mb, step, quality)
         self.thread.signal.connect(self.widget4_display)
         self.thread.start()
@@ -94,9 +94,6 @@ class SettinInterface:
         self.ui.widget4_lineedit_target.setText(self.data["widget4"]["target"])
         self.ui.widget4_lineedit_init_rate.setText(self.data["widget4"]["init_rate"])
         self.ui.widget4_lineedit_compress_rate.setText(self.data["widget4"]["compress_rate"])
-        # except Exception as e:
-        #     print(e)
-        #     print("load fail")
 
     def closeEvent(self):
         # try:
