@@ -5,15 +5,22 @@ Author: XXM
 date: 2020/8/17 14:09
 desc: 
 """
+import json
+import os
+
+import PySide2
 from PySide2.QtGui import QIcon, QColor
 from PySide2.QtUiTools import QUiLoader
 from PySide2.QtWidgets import *
-import json
 
 import fileRenamKite
 import imageCompresKit
 import simulateAppKit
 from coverKit import Cover
+
+dirname = os.path.dirname(PySide2.__file__)
+plugin_path = os.path.join(dirname, 'plugins', 'platforms')
+os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = plugin_path
 
 
 class SettinInterface:
@@ -89,14 +96,15 @@ class SettinInterface:
         with open('.\\config\\settin.json', 'r') as file:
             self.data = json.load(file)
 
-        self.ui.widget3_lineedit_length.setText(self.data["widget3"]["length"])
-        self.ui.widget4_combobox_type.setCurrentIndex(int(self.data["widget4"]["type"]))
-        self.ui.widget4_lineedit_target.setText(self.data["widget4"]["target"])
-        self.ui.widget4_lineedit_init_rate.setText(self.data["widget4"]["init_rate"])
-        self.ui.widget4_lineedit_compress_rate.setText(self.data["widget4"]["compress_rate"])
-        # except Exception as e:
-        #     print(e)
-        #     print("load fail")
+        try:
+            self.ui.widget3_lineedit_length.setText(self.data["widget3"]["length"])
+            self.ui.widget4_combobox_type.setCurrentIndex(int(self.data["widget4"]["type"]))
+            self.ui.widget4_lineedit_target.setText(self.data["widget4"]["target"])
+            self.ui.widget4_lineedit_init_rate.setText(self.data["widget4"]["init_rate"])
+            self.ui.widget4_lineedit_compress_rate.setText(self.data["widget4"]["compress_rate"])
+        except Exception as e:
+            print(e)
+            print("load fail")
 
     def closeEvent(self):
         # try:
