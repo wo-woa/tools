@@ -64,20 +64,21 @@ def get_name_list(path, compare):
     return file_list
 
 
-def rename_by_sort(file_list, path, indent=3):
+def rename_by_sort(file_list, path, indent=3, start=0):
     for i in range(len(file_list)):
-        rename = str(i + 1).zfill(indent) + '.' + file_list[i].split('.')[-1]
+        rename = str(i + 1 + start).zfill(indent) + '.' + file_list[i].split('.')[-1]
         os.rename(os.path.join(path, file_list[i]), os.path.join(path, rename))
 
 
 if __name__ == '__main__':
     while True:
         main_path = my_input('请输入路径: ', r'^\w:\\.+$')
+        start = int(my_input('请输入起始(默认0): ', '^\d+$', '0'))
         indent = int(my_input('请输入长度(默认3): ', '^\d$', '3'))
         compare_type = my_input('请输入排序方式:1. windows自带排序(默认) 2.ascii排序', '^\d$', '1')
         compare_type = compare_string if compare_type == '1' else compare_by_ascii
         main_file_list = get_name_list(main_path, compare_type)
-        rename_by_sort(main_file_list, main_path, indent=indent)
+        rename_by_sort(main_file_list, main_path, indent, start)
         if input('重命名完成！回车退出，非空继续:') == '':
             break
 

@@ -65,7 +65,11 @@ main_date = 'packageName=com.appbyme.app301097&forumType=7&pageSize=10&accessTok
 while True:
     print('请输入id:')
     main_id = input()
-    response = requests.post(main_url, main_date.format(id=main_id), headers=headers)
+    try:
+        response = requests.post(main_url, main_date.format(id=main_id), headers=headers)
+    except  Exception as e:
+        print("无法连接")
+        exit()
     json_text = response.content.decode(response.apparent_encoding)
     main_password, main_content = get_password(json_text)
     print(main_password)
